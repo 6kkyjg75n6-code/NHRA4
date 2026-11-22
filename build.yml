@@ -1,0 +1,22 @@
+name: Build EBOOT.PBP
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: pspdev/pspdev:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compilar
+        run: make
+      - name: Preparar pasta do jogo
+        run: |
+          mkdir -p out/NHRA3D
+          cp EBOOT.PBP out/NHRA3D/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NHRA3D-PSP
+          path: out/
